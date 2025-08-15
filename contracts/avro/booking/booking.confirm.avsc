@@ -1,0 +1,29 @@
+{
+  "namespace": "com.yourorg.booking",
+  "type": "record",
+  "name": "BookingConfirm",
+  "doc": "Schema for booking confirmation event",
+  "fields": [
+    { "name": "bookingId", "type": "string" },
+    { "name": "userId", "type": "string" },
+    { "name": "hotelId", "type": "string" },
+    { "name": "roomId", "type": "string" },
+    { "name": "checkInDate", "type": { "type": "int", "logicalType": "date" } },
+    {
+      "name": "checkOutDate",
+      "type": { "type": "int", "logicalType": "date" }
+    },
+    {
+      "name": "status",
+      "type": {
+        "type": "enum",
+        "name": "Status",
+        "symbols": ["CONFIRMED", "CANCELLED", "PENDING"]
+      }
+    },
+    {
+      "name": "createdAt",
+      "type": { "type": "long", "logicalType": "timestamp-millis" }
+    }
+  ]
+}

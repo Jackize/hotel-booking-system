@@ -1,0 +1,34 @@
+{
+  "type": "record",
+  "name": "InventoryHoldReleased",
+  "namespace": "hotel.inventory",
+  "fields": [
+    { "name": "holdId", "type": "string" },
+    { "name": "hotelId", "type": "string" },
+    { "name": "userId", "type": "string" },
+    {
+      "name": "items",
+      "type": {
+        "type": "array",
+        "items": {
+          "name": "HoldItem",
+          "type": "record",
+          "fields": [
+            { "name": "roomId", "type": "string" },
+            { "name": "checkIn", "type": "string" },
+            { "name": "checkOut", "type": "string" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "reason",
+      "type": {
+        "type": "enum",
+        "name": "ReleaseReason",
+        "symbols": ["manual", "confirmed", "expired"]
+      }
+    },
+    { "name": "timestamp", "type": "long" }
+  ]
+}

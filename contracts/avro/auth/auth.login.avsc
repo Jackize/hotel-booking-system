@@ -1,0 +1,13 @@
+{
+  "namespace": "com.yourorg.auth",
+  "type": "record",
+  "name": "AuthLogin",
+  "doc": "Schema for auth login event",
+  "fields": [
+    { "name": "userId", "type": "string" },
+    { "name": "timestamp", "type": { "type": "long", "logicalType": "timestamp-millis" } },
+    { "name": "ipAddress", "type": ["null", "string"], "default": null },
+    { "name": "userAgent", "type": ["null", "string"], "default": null },
+    { "name": "success", "type": "boolean" }
+  ]
+}

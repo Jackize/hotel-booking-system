@@ -1,0 +1,42 @@
+@holdId=4baa5eab-ba08-41c4-9d40-b1cea6eda4cb
+### Create hold
+POST http://localhost:3002/holds
+Idempotency-Key: demo-123
+Content-Type: application/json
+
+{
+  "hotelId": "H001",
+  "userId": "U123",
+  "items": [
+    { "roomId": "R101", "checkIn": "2025-08-15", "checkOut": "2025-08-18" },
+    { "roomId": "R102", "checkIn": "2025-08-16", "checkOut": "2025-08-17" }
+  ]
+}
+
+### Repeat same request (should return same holdId & remaining ttl)
+POST http://localhost:3002/holds
+Idempotency-Key: demo-123
+Content-Type: application/json
+
+{
+  "hotelId": "H001",
+  "userId": "U123",
+  "items": [
+    { "roomId": "R101", "checkIn": "2025-08-15", "checkOut": "2025-08-18" },
+    { "roomId": "R102", "checkIn": "2025-08-16", "checkOut": "2025-08-17" }
+  ]
+}
+
+### Confirm hold (booking-service)
+POST http://localhost:3002/holds/{{holdId}}/confirm
+Content-Type: application/json
+
+{
+  "userId": "U123"
+}
+
+### Get hold TTL
+GET http://localhost:3002/holds/{{holdId}}
+
+### Release hold
+DELETE http://localhost:3002/holds?holdId={{holdId}}

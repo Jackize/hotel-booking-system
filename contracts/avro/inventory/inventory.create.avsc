@@ -1,0 +1,27 @@
+{
+  "type": "record",
+  "name": "InventoryHoldCreated",
+  "namespace": "hotel.inventory",
+  "fields": [
+    { "name": "holdId", "type": "string" },
+    { "name": "hotelId", "type": "string" },
+    { "name": "userId", "type": "string" },
+    {
+      "name": "items",
+      "type": {
+        "type": "array",
+        "items": {
+          "name": "HoldItem",
+          "type": "record",
+          "fields": [
+            { "name": "roomId", "type": "string" },
+            { "name": "checkIn", "type": "string" }, // "YYYY-MM-DD"
+            { "name": "checkOut", "type": "string" } // exclusive
+          ]
+        }
+      }
+    },
+    { "name": "ttl", "type": "int" }, // seconds
+    { "name": "timestamp", "type": "long" } // epoch millis
+  ]
+}

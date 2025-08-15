@@ -1,0 +1,43 @@
+@accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkYWQ2MzRkNS0zOTE1LTQ5ODAtODNiZC1hOGVlNzI4NDBmZGEiLCJlbWFpbCI6InRlc3QxQGV4YW1wbGUuY29tIiwiaWF0IjoxNzU1MDk0Nzc3LCJleHAiOjE3NTUwOTU2Nzd9.CPA3YTrd05K-KUeZjQonkGo2GWZZKIZah5gpvQceJ4k
+@refreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkYWQ2MzRkNS0zOTE1LTQ5ODAtODNiZC1hOGVlNzI4NDBmZGEiLCJqdGkiOiIzNGUwNDRhNi02MTcyLTQ3MDktYTE2NS1jNGY2MWY5ZjNhZDIiLCJpYXQiOjE3NTUwOTQ3NzcsImV4cCI6MTc1NTY5OTU3N30.xxPM9RQ3dlMwWfRkVvVMxuf8fiJU58KY3IVoiR-ayr0
+
+### Health check
+GET http://localhost:3001/health
+Accept: application/json
+
+### Register user
+POST http://localhost:3001/auth/signup
+Content-Type: application/json
+
+{
+  "email": "test3@example.com",
+  "password": "P@ssw0rd",
+  "fullName": "Test User"
+}
+
+### Login
+POST http://localhost:3001/auth/login
+Content-Type: application/json
+
+{
+  "email": "test2@example.com",
+  "password": "P@ssw0rd"
+}
+
+### Refresh token
+POST http://localhost:3001/auth/refresh
+Content-Type: application/json
+
+{
+  "refreshToken": "{{refreshToken}}"
+}
+
+### Logout
+POST http://localhost:3001/auth/logout
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "refreshToken": "{{refreshToken}}"
+}
+

@@ -1,0 +1,33 @@
+{
+  "namespace": "com.yourorg.user",
+  "type": "record",
+  "name": "UserUpdated",
+  "doc": "Schema for user update event",
+  "fields": [
+    { "name": "userId", "type": "string" },
+    { "name": "email", "type": ["null", "string"], "default": null },
+    { "name": "fullName", "type": ["null", "string"], "default": null },
+    { "name": "phone", "type": ["null", "string"], "default": null },
+    {
+      "name": "roles",
+      "type": ["null", { "type": "array", "items": "string" }],
+      "default": null
+    },
+    {
+      "name": "status",
+      "type": [
+        "null",
+        {
+          "type": "enum",
+          "name": "UserStatus",
+          "symbols": ["ACTIVE", "INACTIVE", "SUSPENDED"]
+        }
+      ],
+      "default": null
+    },
+    {
+      "name": "updatedAt",
+      "type": { "type": "long", "logicalType": "timestamp-millis" }
+    }
+  ]
+}

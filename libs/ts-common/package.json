@@ -1,0 +1,27 @@
+{
+  "name": "ts-common",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "prepare": "npm run build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/ioredis": "^5.0.0",
+    "@types/node": "^24.2.1",
+    "@types/pino": "^7.0.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "ioredis": "^5.7.0",
+    "kafkajs": "^2.2.4",
+    "pino": "^9.8.0",
+    "reflect-metadata": "^0.2.2",
+    "typeorm": "^0.3.25"
+  }
+}

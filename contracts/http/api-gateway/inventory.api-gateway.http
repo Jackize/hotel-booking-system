@@ -1,0 +1,47 @@
+@holdId=74be1dc0-5504-4882-9d7e-94e7b5ad7677
+@accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlMWFhNjhmZi0xZjljLTQ1NWQtYmIwYy1mYmVhYzM0MjM3NjgiLCJlbWFpbCI6InRlc3QyQGV4YW1wbGUuY29tIiwiaWF0IjoxNzU1MTk4NjM1LCJleHAiOjE3NTUxOTk1MzV9.S_vnHMUSWM_RtWjTWFzYY7HsYxsEOn-923dNp93naD0
+
+### Create hold
+POST http://localhost:3000/api/inventory
+Authorization: Bearer {{accessToken}}
+Idempotency-Key: demo-125
+Content-Type: application/json
+
+{
+  "hotelId": "H001",
+  "userId": "U123",
+  "items": [
+    { "roomId": "R101", "checkIn": "2025-08-15", "checkOut": "2025-08-18" },
+    { "roomId": "R102", "checkIn": "2025-08-16", "checkOut": "2025-08-17" }
+  ]
+}
+
+### Repeat same request (should return same holdId & remaining ttl)
+POST http://localhost:3000/api/inventory
+Authorization: Bearer {{accessToken}}
+Idempotency-Key: demo-125
+Content-Type: application/json
+
+{
+  "hotelId": "H001",
+  "userId": "U123",
+  "items": [
+    { "roomId": "R101", "checkIn": "2025-08-15", "checkOut": "2025-08-18" },
+    { "roomId": "R102", "checkIn": "2025-08-16", "checkOut": "2025-08-17" }
+  ]
+}
+
+### Confirm hold (booking-service)
+POST http://localhost:3000/api/inventory/{{holdId}}/confirm
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "userId": "U123"
+}
+
+### Get hold TTL
+GET http://localhost:3000/api/inventory/{{holdId}}
+
+### Release hold
+DELETE http://localhost:3000/api/inventory?holdId={{holdId}}

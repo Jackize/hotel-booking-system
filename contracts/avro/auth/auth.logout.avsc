@@ -1,0 +1,11 @@
+{
+  "namespace": "com.yourorg.auth",
+  "type": "record",
+  "name": "AuthLogout",
+  "doc": "Event schema for user logout",
+  "fields": [
+    { "name": "userId", "type": "string" },
+    { "name": "timestamp", "type": { "type": "long", "logicalType": "timestamp-millis" } },
+    { "name": "ipAddress", "type": ["null", "string"], "default": null }
+  ]
+}

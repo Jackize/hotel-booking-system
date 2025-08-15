@@ -1,0 +1,11 @@
+{
+  "namespace": "com.yourorg.auth",
+  "type": "record",
+  "name": "AuthTokenRefresh",
+  "doc": "Event schema for token refresh",
+  "fields": [
+    { "name": "userId", "type": "string" },
+    { "name": "timestamp", "type": { "type": "long", "logicalType": "timestamp-millis" } },
+    { "name": "success", "type": "boolean" }
+  ]
+}
