@@ -1,0 +1,23 @@
+{
+  "type": "record",
+  "name": "PricingRateUpdated",
+  "namespace": "hotel.pricing",
+  "fields": [
+    { "name": "eventId", "type": "string" },
+    { "name": "ratePlanId", "type": "string" },
+    { "name": "roomTypeId", "type": "string" },
+    { "name": "date", "type": "string" },
+    { "name": "amount", "type": "string" },
+    { "name": "currency", "type": "string" },
+    {
+      "name": "operation",
+      "type": {
+        "type": "enum",
+        "name": "OpType",
+        "symbols": ["CREATE", "UPDATE", "UPSERT"]
+      }
+    },
+    { "name": "previousAmount", "type": ["null", "string"], "default": null },
+    { "name": "timestamp", "type": "long" }
+  ]
+}

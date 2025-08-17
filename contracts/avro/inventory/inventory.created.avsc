@@ -15,13 +15,13 @@
           "type": "record",
           "fields": [
             { "name": "roomId", "type": "string" },
-            { "name": "checkIn", "type": "string" }, // "YYYY-MM-DD"
-            { "name": "checkOut", "type": "string" } // exclusive
+            { "name": "checkIn", "type": "string" },
+            { "name": "checkOut", "type": "string" }
           ]
         }
       }
     },
-    { "name": "ttl", "type": "int" }, // seconds
-    { "name": "timestamp", "type": "long" } // epoch millis
+    { "name": "ttl", "type": "int" },
+    { "name": "timestamp", "type": "long" }
   ]
 }

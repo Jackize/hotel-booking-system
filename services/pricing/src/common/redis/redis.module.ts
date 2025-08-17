@@ -1,6 +1,7 @@
-import { TOKENS, createRedisClient } from '@hotel/ts-common';
+import { TOKENS } from '@hotel/ts-common';
 import { Global, Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { createRedisClient } from 'ts-common/dist/redis';
 
 @Global()
 @Module({

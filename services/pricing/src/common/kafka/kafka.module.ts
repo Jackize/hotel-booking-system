@@ -1,23 +1,24 @@
 import { KafkaWrapper, TOKENS } from "@hotel/ts-common";
 import { Global, Module } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-
-
+import { AppConfigModule } from "../configs/config.module";
+import { PricingEvents } from "./pricing.events";
 @Global()
 @Module({
+    imports: [AppConfigModule],
     providers: [
         {
-            provide: TOKENS.KAFKA_ADMIN,
+            provide: TOKENS.KAFKA_PRODUCER,
             inject: [ConfigService],
             useFactory: (configService: ConfigService) => {
                 const brokers = configService.get<string>('KAFKA_BROKERS')?.split(',').map(s => s.trim()) || [];
                 return new KafkaWrapper({
-                    clientId: process.env.KAFKA_CLIENT_ID ?? 'api-gateway-service',
+                    clientId: process.env.KAFKA_CLIENT_ID ?? 'pricing-service',
                     brokers,
                     idempotentProducer: false, // dev
                     acks: -1,
                     compression: 'gzip',
-                    groupId: process.env.KAFKA_GROUP_ID ?? 'api-gateway-service-group',
+                    groupId: process.env.KAFKA_GROUP_ID ?? 'pricing-service-group',
                     logger: (lvl, msg, meta) => {
                         // nếu có pino: logger[lvl]({ kafka: meta }, msg)
                         console.log(`[kafka:${lvl}]`, msg, meta ?? {});
@@ -25,7 +26,8 @@ import { ConfigService } from "@nestjs/config";
                 });
             }
         },
+        PricingEvents
     ],
-    exports: [TOKENS.KAFKA_ADMIN]
+    exports: [TOKENS.KAFKA_PRODUCER, PricingEvents]
 })
 export class KafkaModule { }

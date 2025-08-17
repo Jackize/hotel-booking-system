@@ -1,7 +1,6 @@
+import { KafkaWrapper, TOKENS } from "@hotel/ts-common";
 import { HttpException, Inject, Injectable } from "@nestjs/common";
 import Redis from "ioredis";
-import { Admin } from "kafkajs";
-import { TOKENS } from "src/common/constants/token";
 import { DataSource } from 'typeorm';
 
 type Detail = 'UP' | 'DOWN'
@@ -11,7 +10,7 @@ export class HealthService {
     constructor(
         @Inject(TOKENS.DB) private readonly ds: DataSource,
         @Inject(TOKENS.REDIS) private readonly redis: Redis,
-        @Inject(TOKENS.KAFKA_ADMIN) private readonly kafkaAdmin: Admin,
+        @Inject(TOKENS.KAFKA_ADMIN) private readonly kafkaAdmin: KafkaWrapper,
     ) { }
 
     async check() {
@@ -39,7 +38,7 @@ export class HealthService {
 
         // Kafka
         try {
-            await this.kafkaAdmin.listTopics();
+            await this.kafkaAdmin.connectAdmin();
             details.kafka = 'UP';
         } catch (error) {
             console.log("🚀 ~ HealthService ~ check ~ error:", error)

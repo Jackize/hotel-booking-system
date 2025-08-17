@@ -1,7 +1,6 @@
+import { TOKENS, createDataSource } from '@hotel/ts-common';
 import { Global, Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { createDataSource } from 'ts-common/dist/typeorm-helper';
-import { TOKENS } from '../constants/token';
 @Global()
 @Module({
     providers: [
