@@ -1,19 +1,20 @@
 import { InventoryHoldCreatedSchema, InventoryHoldReleasedSchema } from '@hotel/contracts/avro/inventory';
+import { KafkaWrapper, TOKENS } from '@hotel/ts-common';
+import { Inject } from '@nestjs/common';
 import * as avro from 'avsc';
-import KafkaWrapper from 'ts-common/dist/kafka';
+
 export class InventoryEvents {
-    private kafka: KafkaWrapper;
-    constructor(brokers: string[]) {
-        this.kafka = new KafkaWrapper(brokers);
+    constructor(@Inject(TOKENS.KAFKA_PRODUCER) private readonly kafka: KafkaWrapper) {
     }
 
     private createdType = avro.Type.forSchema(InventoryHoldCreatedSchema);
     private releasedType = avro.Type.forSchema(InventoryHoldReleasedSchema);
 
-
-    async connect() { await this.kafka.connect(); }
-    async disconnect() { await this.kafka.disconnect(); }
-    async onModuleInit() { await this.kafka.connect(); }
+    async onModuleInit() {
+        await this.kafka.connectProducer();
+        await this.kafka.ensureTopic('inventory.hold.created', 3, 1)
+        await this.kafka.ensureTopic('inventory.hold.released', 3, 1)
+    }
     async onModuleDestroy() { await this.kafka.disconnect(); }
 
     async publishHoldCreated(evt: {
@@ -22,7 +23,7 @@ export class InventoryEvents {
         ttl: number; timestamp: number;
     }) {
         const value = this.createdType.toBuffer(evt);
-        await this.kafka.sendMessage('inventory.hold.created', [
+        await this.kafka.send('inventory.hold.created', [
             { key: evt.holdId, value }
         ]);
     }
@@ -34,7 +35,7 @@ export class InventoryEvents {
         timestamp: number;
     }) {
         const value = this.releasedType.toBuffer(evt);
-        await this.kafka.sendMessage('inventory.hold.released', [
+        await this.kafka.send('inventory.hold.released', [
             { key: evt.holdId, value }
         ]);
     }

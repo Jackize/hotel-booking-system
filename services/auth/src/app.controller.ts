@@ -12,7 +12,6 @@ export class AppController {
 
   @Post('signup')
   signup(@Body() dto: SignupDto) {
-    console.log("🚀 ~ AppController ~ signup ~ dto:", dto)
     return this.appAuthService.signup(dto.email, dto.fullName, dto.password);
   }
 

@@ -48,7 +48,6 @@ export class AppAuthService {
   }
 
   async refresh(refreshToken: string) {
-    console.log("🚀 ~ AppAuthService ~ refresh ~ refreshToken:", refreshToken)
     let payload: any;
     try { payload = this.jwt.verifyRefresh(refreshToken); }
     catch { throw new UnauthorizedException('Invalid refresh'); }
