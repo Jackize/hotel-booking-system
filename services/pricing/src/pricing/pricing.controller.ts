@@ -6,7 +6,7 @@ import { UpdatePriceDto } from 'src/dto/update-price.dto';
 import { UpdateRatePlanDto } from 'src/dto/update-rate-plan.dto';
 import { PricingService } from './pricing.service';
 
-@Controller('pricing')
+@Controller()
 export class PricingController {
   constructor(private readonly pricingService: PricingService) { }
 

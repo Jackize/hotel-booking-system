@@ -24,8 +24,8 @@ import * as Joi from 'joi';
 				KAFKA_BROKERS: Joi.string().required(),
 
 				AUTH_SERVICE_URL: Joi.string(),
-
-				INVENTORY_SERVICE_URL: Joi.string()
+				INVENTORY_SERVICE_URL: Joi.string(),
+				PRICING_SERVICE_URL: Joi.string(),
 			})
 		})
 	]

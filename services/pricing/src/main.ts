@@ -12,6 +12,7 @@ async function bootstrap() {
     transform: true,              // transform payloads to DTO classes
     transformOptions: { enableImplicitConversion: false },
   }));
+  app.setGlobalPrefix('/pricing')
 
   await app.listen(process.env.PORT ?? 3003);
 }

@@ -1,12 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import * as jwt from 'jsonwebtoken';
 
 @Injectable()
 export class JwtService {
-    private readonly accSecret = process.env.JWT_ACCESS_SECRET || 'secret'
-    private readonly refreshSecret = process.env.JWT_REFRESH_SECRET || 'refresh'
-    private readonly accTTL = 60 * 15
-    private readonly refreshTTL = 60 * 60 * 24 * 7
+    constructor(@Inject() readonly config: ConfigService) {}
+    private readonly accSecret = this.config.get<string>('JWT_ACCESS_SECRET') || 'secret'
+    private readonly refreshSecret = this.config.get<string>('JWT_REFRESH_SECRET') || 'refresh'
+    private readonly accTTL = this.config.get<number>('ACCESS_EXPIRE') || 60 * 15
+    private readonly refreshTTL = this.config.get<number>('REFRESH_EXPIRE') || 60 * 60 * 24 * 7
 
     signAccess(payload: object) {
         return jwt.sign(payload, this.accSecret, { expiresIn: this.accTTL });

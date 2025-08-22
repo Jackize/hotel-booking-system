@@ -1,5 +1,5 @@
 import { HttpService } from "@nestjs/axios";
-import { Body, Controller, Delete, Get, Headers, HttpException, Param, Post, Query, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpException, Param, Post, Query, UseGuards } from "@nestjs/common";
 import { AccessGuard } from "src/api/auth/access.guard";
 
 @Controller('inventory')
@@ -14,14 +14,9 @@ export class InventoryController {
 
     @UseGuards(AccessGuard)
     @Post()
-    async createHold(@Body() dto: any, @Headers('idempotency-key') idempotencyKey?: string, @Headers('authorization') authorization?: string) {
+    async createHold(@Body() dto: any) {
         try {
-            const { data } = await this.http.axiosRef.post('', dto, {
-                headers: {
-                    ...(idempotencyKey ? { 'Idempotency-Key': idempotencyKey } : {}),
-                    ...(authorization ? { Authorization: authorization } : {}),
-                },
-            });
+            const { data } = await this.http.axiosRef.post('', dto);
             return data; // { holdId, ttl }
         } catch (e) { this.rethrow(e); }
     }
@@ -38,7 +33,6 @@ export class InventoryController {
     @Post('/:holdId/confirm')
     async confirmHold(@Param('holdId') holdId: string, @Body('userId') userId?: string) {
         try {
-            console.log('hehe')
             const { data } = await this.http.axiosRef.post(`/${holdId}/confirm`, { userId });
             return data;
         } catch (e) { this.rethrow(e); }
