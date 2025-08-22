@@ -1,4 +1,5 @@
 import { ConflictException, Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as crypto from 'crypto';
 import { Redis } from 'ioredis';
@@ -18,6 +19,7 @@ export class AppAuthService {
     private jwt: JwtService,
     private readonly events: AuthEvents,
     @Inject(TOKENS.REDIS) private readonly redis: Redis,
+    @Inject() private readonly config: ConfigService
   ) { }
   async onModuleInit() { await this.events.onModuleInit?.(); }
   async onModuleDestroy() { await this.events.onModuleDestroy?.(); }
@@ -38,11 +40,11 @@ export class AppAuthService {
       throw new UnauthorizedException('Invalid email or password');
     }
 
-    const accessToken = await this.jwt.signAccess({ sub: user.id, email: user.email });
+    const accessToken = this.jwt.signAccess({ sub: user.id, email: user.email });
     const jti = crypto.randomUUID();
     const refreshToken = this.jwt.signRefresh({ sub: user.id, jti })
     // Lưu refresh token vào Redis
-    await this.redis.setex(`rt:${user.id}:${jti}`, 60 * 60 * 24 * 7, '1')
+    await this.redis.setex(`rt:${user.id}:${jti}`, this.config.get<string>('REFRESH_EXPIRE') || 60 * 60 * 24 * 7, '1')
     await this.events.publishLogin({ userId: user.id, timestamp: Date.now(), ipAddress: ip ?? null, userAgent: ua ?? null, success: true });
     return { accessToken, refreshToken };
   }

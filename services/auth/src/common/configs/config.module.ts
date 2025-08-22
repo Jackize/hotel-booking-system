@@ -12,9 +12,9 @@ import * as Joi from 'joi';
 				PORT: Joi.number(),
 
 				JWT_ACCESS_SECRET: Joi.string().required(),
-				ACCESS_EXPIRE: Joi.number().required(),
+				ACCESS_EXPIRE: Joi.string().required(),
 				JWT_REFRESH_SECRET: Joi.string().required(),
-				REFRESH_EXPIRE: Joi.number().required(),
+				REFRESH_EXPIRE: Joi.string().required(),
 
 				DB_HOST: Joi.string(),
 				DB_PORT: Joi.number(),
