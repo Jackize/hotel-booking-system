@@ -1,5 +1,0 @@
-export const TOKENS = {
-    DB: 'DB_DATASOURCE',
-    REDIS: 'REDIS_CLIENT',
-    KAFKA_ADMIN: 'KAFKA_ADMIN',
-};

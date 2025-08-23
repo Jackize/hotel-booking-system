@@ -1,10 +1,10 @@
+import { TOKENS } from '@hotel/ts-common';
 import { ConflictException, Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as crypto from 'crypto';
 import { Redis } from 'ioredis';
 import { Repository } from 'typeorm';
-import { TOKENS } from './common/constants/token';
 import { AuthEvents } from './common/kafka/auth.events';
 import { User } from './entities/user.entity';
 import { JwtService } from './jwt/jwt.service';

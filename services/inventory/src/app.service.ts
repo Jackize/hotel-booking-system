@@ -1,8 +1,8 @@
+import { TOKENS } from '@hotel/ts-common';
 import { BadRequestException, ConflictException, ForbiddenException, GoneException, Inject, Injectable } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 import * as dayjs from 'dayjs';
 import { Redis } from 'ioredis';
-import { TOKENS } from './common/constants/token';
 import { InventoryEvents } from './common/kafka/inventory.events';
 import { CreateHoldDto, HoldItemDto, HoldResponse } from './dto/holds.dto';
 import { LUA_TRY_HOLD } from './lua/redis.script';
@@ -43,7 +43,6 @@ export class HoldsService {
    * Idempotent create: nếu có Idempotency-Key, trả lại hold cũ nếu còn hiệu lực.
    */
   async createHold(dto: CreateHoldDto, idempotencyKey?: string): Promise<HoldResponse> {
-    console.log("🚀 ~ HoldsService ~ createHold ~ idempotencyKey:", idempotencyKey)
     const { hotelId, userId, items } = dto;
     this.validateItems(items);
 
