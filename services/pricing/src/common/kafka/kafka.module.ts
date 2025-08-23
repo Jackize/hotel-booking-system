@@ -2,6 +2,7 @@ import { KafkaWrapper, TOKENS } from "@hotel/ts-common";
 import { Global, Module } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { AppConfigModule } from "../configs/config.module";
+import { PricingConsumer } from "./pricing.consumer";
 import { PricingEvents } from "./pricing.events";
 @Global()
 @Module({
@@ -26,7 +27,8 @@ import { PricingEvents } from "./pricing.events";
                 });
             }
         },
-        PricingEvents
+        PricingEvents,
+        PricingConsumer
     ],
     exports: [TOKENS.KAFKA_PRODUCER, PricingEvents]
 })
